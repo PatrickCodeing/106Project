@@ -1,5 +1,4 @@
 var SpeechRecognition = window.webkitSpeechRecognition;
-var Content;
 var recognition = new SpeechRecognition();
 
 function start()
@@ -7,6 +6,18 @@ function start()
     recognition.start();
 } 
 
+recognition.onresult = function(event){
+    console.log(event);
+
+    var content=event.results[0][0].transcript;
+
+    console.log(content);
+
+    if(content == "selfie"){
+        console.log("taking my selfie --- ");
+        speak();
+    }
+}
 
 camera = document.getElementById("camera");
 Webcam.set({
@@ -35,6 +46,19 @@ function speak(){
         var utterThis = new SpeechSynthesisUtterance(speak_data);
         synth.speak(utterThis);
       },5000);
+
+      setTimeout(function(){
+        img_id = "selfie2";
+        take_snapshot(); 
+        speak_data = "Taking your next selfie in 15 seconds";
+        var utterThis = new SpeechSynthesisUtterance(speak_data);
+        synth.speak(utterThis);
+      },10000);
+
+      setTimeout(function(){
+        img_id = "selfie3";
+        take_snapshot(); 
+      },15000);
 }
 
 function take_snapshot(){
